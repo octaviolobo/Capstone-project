@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from app.models.models import db, Users, Service, Appointment
+from app.models.models import db, Users, Service, GuestAppointment, Specialty, DoctorSpecialty, Availability, GuestAppointment
 
 main = Blueprint('main', __name__,url_prefix='/api/v1')
 
@@ -19,7 +19,7 @@ def create_user():
         email=data.get('email'),
         password_hash=data.get('password_hash'),
         phone_number=data.get('phone_number'),
-        user_type='patient'
+        user_type='patient',  # Default user 
     )
     db.session.add(user)
     db.session.commit()
@@ -126,7 +126,7 @@ def delete_service(service_id):
 @main.route('/appointments', methods=['POST'])
 def create_appointment():
     data = request.json
-    appointment = Appointment(
+    appointment = GuestAppointment(
         service_id=data.get('service_id'),
         appointment_time=data.get('appointment_time'),
         status=data.get('status', 'pending'),
@@ -140,7 +140,7 @@ def create_appointment():
 
 @main.route('/appointments', methods=['GET'])
 def get_appointments():
-    appointments = Appointment.query.all()
+    appointments = GuestAppointment.query.all()
     return jsonify([{
         'appointment_id': a.appointment_id,
         'service_id': a.service_id,
@@ -153,7 +153,7 @@ def get_appointments():
 
 @main.route('/appointments/<appointment_id>', methods=['GET'])
 def get_appointment_by_id(appointment_id):
-    appointment = Appointment.query.get_or_404(appointment_id)
+    appointment = GuestAppointment.query.get_or_404(appointment_id)
     return jsonify({
         'appointment_id': appointment.appointment_id,
         'service_id': appointment.service_id,
@@ -166,7 +166,7 @@ def get_appointment_by_id(appointment_id):
 
 @main.route('/appointments/<appointment_id>', methods=['PUT'])
 def update_appointment(appointment_id):
-    appointment = Appointment.query.get_or_404(appointment_id)
+    appointment = GuestAppointment.query.get_or_404(appointment_id)
     data = request.json
     appointment.service_id = data.get('service_id', appointment.service_id)
     appointment.appointment_time = data.get('appointment_time', appointment.appointment_time)
@@ -179,8 +179,156 @@ def update_appointment(appointment_id):
 
 @main.route('/appointments/<appointment_id>', methods=['DELETE'])
 def delete_appointment(appointment_id):
-    appointment = Appointment.query.get_or_404(appointment_id)
+    appointment = GuestAppointment.query.get_or_404(appointment_id)
     db.session.delete(appointment)
     db.session.commit()
     return jsonify({'message': 'appointment deleted'}), 200
+
+@main.route('/guest_appointments', methods=['POST'])
+def create_guest_appointment():
+    data = request.json
+    appointment = GuestAppointment(
+        service_id=data.get('service_id'),
+        appointment_time=data.get('appointment_time'),
+        status=data.get('status', 'pending'),
+        notes=data.get('notes'),
+        doctor_id=data.get('doctor_id'),
+        patient_id=data.get('patient_id')
+    )
+    db.session.add(appointment)
+    db.session.commit()
+    return jsonify({'message': 'guest appointment created', 'appointment_id': appointment.appointment_id}), 201
+
+@main.route('/guest_appointments', methods=['GET'])
+def get_guest_appointments():
+    appointments = GuestAppointment.query.all()
+    return jsonify([{
+        'appointment_id': a.appointment_id,
+        'service_id': a.service_id,
+        'appointment_time': a.appointment_time.isoformat(),
+        'status': a.status,
+        'notes': a.notes,
+        'doctor_id': a.doctor_id,
+        'patient_id': a.patient_id
+    } for a in appointments]), 200
+
+@main.route('/guest_appointments/<appointment_id>', methods=['GET'])
+def get_guest_appointment_by_id(appointment_id):
+    appointment = GuestAppointment.query.get_or_404(appointment_id)
+    return jsonify({
+        'appointment_id': appointment.appointment_id,
+        'service_id': appointment.service_id,
+        'appointment_time': appointment.appointment_time.isoformat(),
+        'status': appointment.status,
+        'notes': appointment.notes,
+        'doctor_id': appointment.doctor_id,
+        'patient_id': appointment.patient_id
+    }), 200
+
+@main.route('/guest_appointments/<appointment_id>', methods=['PUT'])
+def update_guest_appointment(appointment_id):
+    appointment = GuestAppointment.query.get_or_404(appointment_id)
+    data = request.json
+    appointment.service_id = data.get('service_id', appointment.service_id)
+    appointment.appointment_time = data.get('appointment_time', appointment.appointment_time)
+    appointment.status = data.get('status', appointment.status)
+    appointment.notes = data.get('notes', appointment.notes)
+    appointment.doctor_id = data.get('doctor_id', appointment.doctor_id)
+    appointment.patient_id = data.get('patient_id', appointment.patient_id)
+    db.session.commit()
+    return jsonify({'message': 'guest appointment updated'}), 200
+
+@main.route('/guest_appointments/<appointment_id>', methods=['DELETE'])
+def delete_guest_appointment(appointment_id):
+    appointment = GuestAppointment.query.get_or_404(appointment_id)
+    db.session.delete(appointment)
+    db.session.commit()
+    return jsonify({'message': 'guest appointment deleted'}), 200
+
+@main.route('/specialties', methods=['POST'])
+def create_specialty():
+    data = request.json
+    specialty = Specialty(
+        name=data.get('name'),
+        description=data.get('description')
+    )
+    db.session.add(specialty)
+    db.session.commit()
+    return jsonify({'message': 'specialty created', 'specialty_id': specialty.specialty_id}), 201
+
+@main.route('/specialties', methods=['GET'])
+def get_specialties():
+    specialties = Specialty.query.all()
+    return jsonify([{
+        'specialty_id': s.specialty_id,
+        'name': s.name,
+        'description': s.description
+    } for s in specialties]), 200
+
+@main.route('/specialties/<specialty_id>', methods=['GET'])
+def get_specialty_by_id(specialty_id):
+    specialty = Specialty.query.get_or_404(specialty_id)
+    return jsonify({
+        'specialty_id': specialty.specialty_id,
+        'name': specialty.name,
+        'description': specialty.description
+    }), 200
+
+@main.route('/specialties/<specialty_id>', methods=['PUT'])
+def update_specialty(specialty_id):
+    specialty = Specialty.query.get_or_404(specialty_id)
+    data = request.json
+    specialty.name = data.get('name', specialty.name)
+    specialty.description = data.get('description', specialty.description)
+    db.session.commit()
+    return jsonify({'message': 'specialty updated'}), 200
+
+@main.route('/specialties/<specialty_id>', methods=['DELETE'])
+def delete_specialty(specialty_id):
+    specialty = Specialty.query.get_or_404(specialty_id)
+    db.session.delete(specialty)
+    db.session.commit()
+    return jsonify({'message': 'specialty deleted'}), 200
+
+@main.route('/doctors/<doctor_id>/specialties', methods=['POST'])
+def add_doctor_specialty(doctor_id):
+    data = request.json
+    specialty_id = data.get('specialty_id')
+    if not specialty_id:
+        return jsonify({'error': 'specialty_id is required'}), 400
+    # duplicates check
+    exists = DoctorSpecialty.query.filter_by(doctor_id=doctor_id, specialty_id=specialty_id).first()
+    if exists:
+        return jsonify({'error': 'Doctor already has this specialty'}), 400
+    doctor_specialty = DoctorSpecialty(doctor_id=doctor_id, specialty_id=specialty_id)
+    db.session.add(doctor_specialty)
+    db.session.commit()
+    return jsonify({'message': 'specialty added to doctor'}), 201
+
+@main.route('/doctors/<doctor_id>/specialties', methods=['GET'])
+def get_doctor_specialties(doctor_id):
+    specialties = (
+        db.session.query(Specialty)
+        .join(DoctorSpecialty, Specialty.specialty_id == DoctorSpecialty.specialty_id)
+        .filter(DoctorSpecialty.doctor_id == doctor_id)
+        .all()
+    )
+    return jsonify([
+        {
+            'specialty_id': s.specialty_id,
+            'name': s.name,
+            'description': s.description
+        } for s in specialties
+    ]), 200
+
+@main.route('/doctors/<doctor_id>/specialties/<sid>', methods=['DELETE'])
+def delete_doctor_specialty(doctor_id, sid):
+    doctor_specialty = DoctorSpecialty.query.filter_by(doctor_id=doctor_id, specialty_id=sid).first_or_404()
+    db.session.delete(doctor_specialty)
+    db.session.commit()
+    return jsonify({'message': 'specialty removed from doctor'}), 200
+
+
+
+
 
