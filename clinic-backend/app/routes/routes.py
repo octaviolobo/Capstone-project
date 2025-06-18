@@ -328,7 +328,51 @@ def delete_doctor_specialty(doctor_id, sid):
     db.session.commit()
     return jsonify({'message': 'specialty removed from doctor'}), 200
 
+@main.route('/availabilities', methods=['POST'])
+def create_availability():
+    data = request.json
+    availability = Availability(
+        doctor_id=data.get('doctor_id'),
+        start_time=data.get('start_time'),
+        end_time=data.get('end_time')
+    )
+    db.session.add(availability)
+    db.session.commit()
+    return jsonify({'message': 'availability created', 'availability_id': availability.availability_id}), 201
 
+@main.route('/availabilities', methods=['GET'])
+def get_availabilities():
+    availabilities = Availability.query.all()
+    return jsonify([{
+        'availability_id': a.availability_id,
+        'doctor_id': a.doctor_id,
+        'start_time': a.start_time,
+        'end_time': a.end_time
+    } for a in availabilities]), 200
 
+@main.route('/availabilities/<availability_id>', methods=['GET'])
+def get_availability_by_id(availability_id):
+    availability = Availability.query.get_or_404(availability_id)
+    return jsonify({
+        'availability_id': availability.availability_id,
+        'doctor_id': availability.doctor_id,
+        'start_time': availability.start_time,
+        'end_time': availability.end_time
+    }), 200
 
+@main.route('/availabilities/<availability_id>', methods=['PUT'])
+def update_availability(availability_id):
+    availability = Availability.query.get_or_404(availability_id)
+    data = request.json
+    availability.doctor_id = data.get('doctor_id', availability.doctor_id)
+    availability.start_time = data.get('start_time', availability.start_time)
+    availability.end_time = data.get('end_time', availability.end_time)
+    db.session.commit()
+    return jsonify({'message': 'availability updated'}), 200
 
+@main.route('/availabilities/<availability_id>', methods=['DELETE'])
+def delete_availability(availability_id):
+    availability = Availability.query.get_or_404(availability_id)
+    db.session.delete(availability)
+    db.session.commit()
+    return jsonify({'message': 'availability deleted'}), 200        
