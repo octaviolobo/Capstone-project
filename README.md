@@ -188,3 +188,43 @@ Clinic staff can manage schedules, view patient information, and access booking 
 - All request and response formats use **JSON**.
 - **JWT (JSON Web Tokens)** via `Flask-JWT-Extended` will be used for secure authorization.
 - Proper HTTP status codes and error messages will be returned for each endpoint.
+
+## 📊 Project Progress
+
+### ✅ Backend - Completed
+
+The backend for the Clinic Appointment Scheduler is **fully implemented and functional**. All core features are in place:
+
+#### 🔐 Authentication
+- `POST /auth/login`: User login with JWT issuance
+- `GET /auth/me`: Returns the authenticated user's info
+
+#### 👥 User Management
+- Full CRUD operations:
+  - `POST /users`
+  - `GET /users`
+  - `GET /users/:id`
+  - `PUT /users/:id`
+  - `DELETE /users/:id`
+- Role-based access control (admin, doctor, patient)
+
+#### 📅 Appointments
+- Users can:
+  - Book new appointments
+  - View upcoming appointments
+  - Update or cancel them
+- Doctors can see their schedule
+- Admins have access to all appointments
+
+#### 🏥 Clinic Data
+- Services and Specialties endpoints implemented
+- Availability system tied to doctor scheduling
+
+#### 🗃️ Database
+- Built using PostgreSQL
+- Tables include: `Users`, `Appointments`, `Services`, `Specialties`, `Doctor_Specialties`, `Availability`, `Guest_Appointments`
+
+#### ✅ Testing & Configuration
+- Backend tested with realistic data
+- JWT authentication fully secured
+- Flask environment configured with `.env` file
