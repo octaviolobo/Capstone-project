@@ -1,16 +1,13 @@
 from flask import Blueprint, request, jsonify
 from app.models.models import db, Users, Service, GuestAppointment, Specialty, DoctorSpecialty, Availability, GuestAppointment
-
+from app.routes.utils import admin_required
 main = Blueprint('main', __name__,url_prefix='/api/v1')
 
 
 
 
-@main.route('/')
-def home():
-    return 'test'
-
 @main.route('/users', methods=['POST'])
+@admin_required
 def create_user():
     data = request.json
     user = Users(
