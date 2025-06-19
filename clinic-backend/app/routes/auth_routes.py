@@ -59,3 +59,20 @@ def login():
 def logout():  
     jti = get_jwt()['jti']
     return jsonify({"message": "User logged out successfully"}), 200
+
+@auth.route('/me', methods=['GET'])
+@jwt_required()
+def me():
+    current_user = get_jwt_identity()
+    user = Users.query.get(current_user)
+    if not user:
+        return jsonify({"message": "User not found"}), 404
+
+    user_info = {
+        "email": user.email,
+        "first_name": user.first_name,
+        "last_name": user.last_name,
+        "phone_number": user.phone_number,
+        "user_type": user.user_type
+    }
+    return jsonify({"user": user_info}), 200
