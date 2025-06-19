@@ -1,5 +1,5 @@
 from flask import request, jsonify, Blueprint
-from app.models.models import Users  
+from app.models.models import Users,db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token, get_jwt, jwt_required, get_jwt_identity
 
@@ -7,46 +7,55 @@ from flask_jwt_extended import create_access_token, get_jwt, jwt_required, get_j
 auth = Blueprint('auth', __name__,url_prefix='/api/v1/auth')
 
 
-@auth.route('/register', methods=['POST']) #TODO
+@auth.route('/register', methods=['POST'])
 def register():
     data = request.get_json()
-    if not data or not data.get('username') or not data.get('password'):
-        return jsonify({"message": "Username and password are required"}), 400
+    if not data or not data.get('email') or not data.get('password'):
+        return jsonify({"message": "Email and password are required"}), 400
 
-    username = data['username']
+    email = data['email']
     password = data['password']
 
-    if Users.query.filter_by(username=username).first():
+    if Users.query.filter_by(email=email).first():
         return jsonify({"message": "User already exists"}), 400
 
-    hashed_password = generate_password_hash(password, method='sha256')
-    new_user = Users(username=username, password=hashed_password)
-    
+    hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
+    new_user = Users(
+        email=email,
+        password_hash=hashed_password,
+        first_name=data.get('first_name', ''),
+        last_name=data.get('last_name', ''),
+        phone_number=data.get('phone_number', ''),
+        user_type='patient'
+    )
+
     try:
-        new_user.save()
+        db.session.add(new_user)
+        db.session.commit()
         return jsonify({"message": "User registered successfully"}), 201
     except Exception as e:
         return jsonify({"message": str(e)}), 500 
     
 @auth.route('/login', methods=['POST'])
 def login():
-    data = request.get_json()
-    if not data or not data.get('username') or not data.get('password'):
-        return jsonify({"message": "Username and password are required"}), 400
+    
+        data = request.get_json()
+        if not data or not data.get('email') or not data.get('password'):
+            return jsonify({"message": "Email and password are required"}), 400
 
-    username = data['username']
-    password = data['password']
+        email = data['email']
+        password = data['password']
 
-    user = Users.query.filter_by(username=username).first()
-    if not user or not check_password_hash(user.password, password):
-        return jsonify({"message": "Invalid credentials"}), 401
+        user = Users.query.filter_by(email=email).first()
+        if not user or not check_password_hash(user.password_hash, password):
+            return jsonify({"message": "Invalid credentials"}), 401
 
-    access_token = create_access_token(identity=user.id)
-    return jsonify({"access_token": access_token}), 200 
+        access_token = create_access_token(identity=str(user.user_id))
+        return jsonify({"access_token": access_token}), 200
+
 
 @auth.route('/logout', methods=['POST'])
 @jwt_required()
-def logout():
+def logout():  
     jti = get_jwt()['jti']
-    # Add the JWT ID to the blacklist
     return jsonify({"message": "User logged out successfully"}), 200

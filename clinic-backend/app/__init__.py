@@ -12,7 +12,7 @@ def create_app():
 
     app = Flask(__name__)
 
-
+    app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
     db_uri = f"postgresql+psycopg2://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
     app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -25,7 +25,7 @@ def create_app():
 
     from app.routes.auth_routes import auth
     app.register_blueprint(auth)
-    
+
     try:
         with app.app_context():
             with db.engine.connect() as connection:
