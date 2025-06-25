@@ -3,7 +3,7 @@ from app.models.models import db
 import os
 from dotenv import load_dotenv
 from flask_jwt_extended import JWTManager
-
+from flask_cors import CORS
 
 
 
@@ -11,7 +11,7 @@ def create_app():
     load_dotenv()
 
     app = Flask(__name__)
-
+    CORS(app)
     app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
     db_uri = f"postgresql+psycopg2://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
     app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
