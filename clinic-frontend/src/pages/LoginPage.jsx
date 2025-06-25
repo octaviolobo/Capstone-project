@@ -57,17 +57,7 @@ const LoginPage = () => {
         </button>
       </div>
 
-      <button
-        className="google-btn"
-        onClick={() => window.location.href = 'http://localhost:5000/api/v1/auth/google'}
-      >
-        <img
-          src="https://developers.google.com/identity/images/g-logo.png"
-          alt="Google"
-          style={{ width: 20, height: 20 }}
-        />
-        Login com Google
-      </button>
+
     </div>
   );
 };
