@@ -1,0 +1,71 @@
+.book-appointment-container {
+  max-width: 500px;
+  margin: 60px auto;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 6px 32px rgba(0,0,0,0.10);
+  padding: 32px 40px;
+  font-family: 'Inter', Arial, sans-serif;
+}
+
+.book-appointment-title {
+  color: #22223b;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.book-appointment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.book-appointment-form select,
+.book-appointment-form input,
+.book-appointment-form textarea {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 1rem;
+  font-family: inherit;
+  background: #f7f8fa;
+  color: #22223b;
+  transition: border 0.2s;
+}
+
+.book-appointment-form select:focus,
+.book-appointment-form input:focus,
+.book-appointment-form textarea:focus {
+  border: 1.5px solid #d3af37;
+  outline: none;
+}
+
+.book-appointment-form button {
+  background: #d3af37;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 0;
+  font-size: 1.08rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.book-appointment-form button:hover {
+  background: #1d4ed8;
+}
+
+.book-appointment-msg {
+  margin-top: 8px;
+  font-size: 1rem;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .book-appointment-container {
+    padding: 18px 6px;
+  }
+}

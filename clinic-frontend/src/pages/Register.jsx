@@ -17,11 +17,11 @@ const RegisterPage = () => {
         }
         try {
             await axios.post('http://localhost:5000/api/v1/auth/register', {
-                phone,
-                firstName,
-                lastName,
-                email,
-                password
+                first_name: firstName,
+                last_name: lastName,
+                phone_number: phone,
+                email: email,
+                password: password
             });
             alert("Registro bem-sucedido");
             window.location.href = '/login';

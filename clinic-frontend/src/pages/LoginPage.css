@@ -11,7 +11,7 @@ body {
   max-width: 400px;
   width: 100%;
   margin: 80px auto;
-  display: block; /* Changed from flex to block */
+  display: block; 
 }
 
 .logo-row {
@@ -19,7 +19,7 @@ body {
   align-items: center;
   gap: 10px;
   margin-bottom: 32px;
-  justify-content: center; /* Center logo horizontally */
+  justify-content: center; 
 }
 
 .logo-box {

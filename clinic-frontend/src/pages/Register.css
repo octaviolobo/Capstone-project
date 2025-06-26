@@ -12,7 +12,7 @@ body {
   margin: 80px auto;
   display: flex;
   flex-direction: column;
-    align-items: center; /* Center content horizontally */ 
+    align-items: center; 
 }
 
 .logo-row {
@@ -20,7 +20,7 @@ body {
   align-items: center;
   gap: 10px;
   margin-bottom: 32px;
-  justify-content: center; /* Center logo horizontally */
+  justify-content: center; 
 }
 .logo-box {
   background: #d3af37;

@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from app.models.models import db, Users, Service, GuestAppointment, Specialty, DoctorSpecialty, Availability, GuestAppointment
+from app.models.models import db, Users, Service, Appointment, Specialty, DoctorSpecialty, Availability, GuestAppointment
 from app.routes.utils import admin_required
 main = Blueprint('main', __name__,url_prefix='/api/v1')
 
@@ -123,7 +123,7 @@ def delete_service(service_id):
 @main.route('/appointments', methods=['POST'])
 def create_appointment():
     data = request.json
-    appointment = GuestAppointment(
+    appointment = Appointment(
         service_id=data.get('service_id'),
         appointment_time=data.get('appointment_time'),
         status=data.get('status', 'pending'),
@@ -137,7 +137,7 @@ def create_appointment():
 
 @main.route('/appointments', methods=['GET'])
 def get_appointments():
-    appointments = GuestAppointment.query.all()
+    appointments = Appointment.query.all()
     return jsonify([{
         'appointment_id': a.appointment_id,
         'service_id': a.service_id,
@@ -150,7 +150,7 @@ def get_appointments():
 
 @main.route('/appointments/<appointment_id>', methods=['GET'])
 def get_appointment_by_id(appointment_id):
-    appointment = GuestAppointment.query.get_or_404(appointment_id)
+    appointment = Appointment.query.get_or_404(appointment_id)
     return jsonify({
         'appointment_id': appointment.appointment_id,
         'service_id': appointment.service_id,
@@ -163,7 +163,7 @@ def get_appointment_by_id(appointment_id):
 
 @main.route('/appointments/<appointment_id>', methods=['PUT'])
 def update_appointment(appointment_id):
-    appointment = GuestAppointment.query.get_or_404(appointment_id)
+    appointment = Appointment.query.get_or_404(appointment_id)
     data = request.json
     appointment.service_id = data.get('service_id', appointment.service_id)
     appointment.appointment_time = data.get('appointment_time', appointment.appointment_time)
@@ -176,7 +176,7 @@ def update_appointment(appointment_id):
 
 @main.route('/appointments/<appointment_id>', methods=['DELETE'])
 def delete_appointment(appointment_id):
-    appointment = GuestAppointment.query.get_or_404(appointment_id)
+    appointment = Appointment.query.get_or_404(appointment_id)
     db.session.delete(appointment)
     db.session.commit()
     return jsonify({'message': 'appointment deleted'}), 200
