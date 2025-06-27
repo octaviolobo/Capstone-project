@@ -5,13 +5,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 36px;
+  
   height: 64px;
   position: sticky;
   top: 0;
-  z-index: 10;
-  margin-left: 25px;
-  margin-right: 25px;
+  z-index: 1;
+  margin-left: 1px;
+  margin-right: 1px;
 }
 
 .navbar-left {

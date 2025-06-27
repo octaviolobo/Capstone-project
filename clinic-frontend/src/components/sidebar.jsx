@@ -14,10 +14,17 @@ function Sidebar() {
       </div>
       <nav className="sidebar-nav">
         <button onClick={() => navigate('/me')}>Perfil</button>
-        <button onClick={() => navigate('/appointments')}>Consultas</button>
+        {user && user.user_type === 'patient' && (
+          <button onClick={() => navigate('/appointments')}>Minhas Consultas</button>
+        )}
+        
+
         <button onClick={() => navigate('/book-appointment')}>Agendar Consulta</button>
         {user && user.user_type === 'admin' && (
-          <button onClick={() => navigate('/admin')}>Admin</button>
+          <button onClick={() => navigate('/admin/appointments')}>Aprovar Consultas</button>
+        )}
+        {user && user.user_type === 'admin' && (
+          <button onClick={() => navigate('/admin')}>Agenda</button>
         )}
         <button className='logout-button' onClick={logout}>Sair</button>
       </nav>
