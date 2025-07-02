@@ -1,6 +1,9 @@
 from flask import Blueprint, request, jsonify
 from app.models.models import db, Users, Service, Appointment, Specialty, DoctorSpecialty, Availability, GuestAppointment
 from app.routes.utils import admin_required
+from flask_mail import Message
+from app import mail
+
 main = Blueprint('main', __name__,url_prefix='/api/v1')
 
 
@@ -162,16 +165,25 @@ def get_appointment_by_id(appointment_id):
     }), 200
 
 @main.route('/appointments/<appointment_id>', methods=['PUT'])
+
 def update_appointment(appointment_id):
     appointment = Appointment.query.get_or_404(appointment_id)
     data = request.json
-    appointment.service_id = data.get('service_id', appointment.service_id)
-    appointment.appointment_time = data.get('appointment_time', appointment.appointment_time)
+    prev_status = appointment.status
     appointment.status = data.get('status', appointment.status)
-    appointment.notes = data.get('notes', appointment.notes)
-    appointment.doctor_id = data.get('doctor_id', appointment.doctor_id)
-    appointment.patient_id = data.get('patient_id', appointment.patient_id)
     db.session.commit()
+
+    # Send confirmation email if status changed to confirmed
+    if prev_status != 'confirmed' and appointment.status == 'confirmed':
+        user = Users.query.get(appointment.patient_id)
+        if user:
+            msg = Message(
+                subject="Confirmação de Consulta",
+                recipients=[user.email],
+                body=f"Olá {user.first_name}, sua consulta foi confirmada para {appointment.appointment_time.strftime('%d/%m/%Y as %H:%M')}."
+            )
+            mail.send(msg)
+
     return jsonify({'message': 'appointment updated'}), 200
 
 @main.route('/appointments/<appointment_id>', methods=['DELETE'])
@@ -372,4 +384,4 @@ def delete_availability(availability_id):
     availability = Availability.query.get_or_404(availability_id)
     db.session.delete(availability)
     db.session.commit()
-    return jsonify({'message': 'availability deleted'}), 200        
+    return jsonify({'message': 'availability deleted'}), 200
