@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react';
 import useAuth from '../hooks/useAuth';
 import axios from 'axios';
+import Select from 'react-select';
 import './Bookappointment.css';
 
 function BookAppointment() {
   const { user } = useAuth();
   const [services, setServices] = useState([]);
   const [doctors, setDoctors] = useState([]);
+  const [patients, setPatients] = useState([]); // NEW
   const [serviceId, setServiceId] = useState('');
   const [doctorId, setDoctorId] = useState('');
+  const [patientId, setPatientId] = useState(''); // NEW
   const [date, setDate] = useState('');
   const [notes, setNotes] = useState('');
   const [msg, setMsg] = useState('');
@@ -23,24 +26,25 @@ function BookAppointment() {
       headers: { Authorization: `Bearer ${token}` }
     }).then(res => {
       setDoctors(res.data.filter(u => u.user_type === 'doctor'));
+      if (user && user.user_type === 'admin') {
+        setPatients(res.data.filter(u => u.user_type === 'patient'));
+      }
     });
-  }, []);
+  }, [user]);
 
   const handleBook = async (e) => {
     e.preventDefault();
     setMsg('');
-    if (!serviceId || !doctorId || !date) {
+    if (!serviceId || !doctorId || !date || (user.user_type === 'admin' && !patientId)) {
       setMsg('Preencha todos os campos obrigatórios.');
       return;
     }
     const token = localStorage.getItem('token');
     try {
-        console.log('user:', user);
-        console.log('patient_id:', user?.user_id);
       await axios.post('http://localhost:5000/api/v1/appointments', {
         service_id: serviceId,
         doctor_id: doctorId,
-        patient_id: user.user_id,
+        patient_id: user.user_type === 'admin' ? patientId : user.user_id,
         appointment_time: date,
         status: 'pending',
         notes
@@ -50,6 +54,7 @@ function BookAppointment() {
       setMsg('Consulta marcada com sucesso!');
       setServiceId('');
       setDoctorId('');
+      setPatientId('');
       setDate('');
       setNotes('');
     } catch (err) {
@@ -75,6 +80,24 @@ function BookAppointment() {
             <option key={d.user_id} value={d.user_id}>{d.first_name} {d.last_name}</option>
           ))}
         </select>
+        {/* Only show for admin */}
+        {user.user_type === 'admin' && (
+          <Select
+            options={patients.map(p => ({
+              value: p.user_id,
+              label: `${p.first_name} ${p.last_name} (${p.email})`
+            }))}
+            value={patients
+              .filter(p => p.user_id === patientId)
+              .map(p => ({
+                value: p.user_id,
+                label: `${p.first_name} ${p.last_name} (${p.email})`
+              }))[0] || null}
+            onChange={option => setPatientId(option ? option.value : '')}
+            placeholder="Selecione ou busque o paciente"
+            isClearable
+          />
+        )}
         <input
           type="datetime-local"
           value={date}

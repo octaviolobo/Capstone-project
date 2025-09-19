@@ -10,17 +10,14 @@ function Navbar() {
     <nav className="main-navbar">
       <div className="navbar-left" onClick={() => navigate('/')}>
         <span className="logo-box">M</span>
-        <span className="navbar-title">Maternar</span>
+        <span className="navbar-title">Matenar</span>
       </div>
       <div className="navbar-links">
-        <button onClick={() => navigate('/')}>Início</button>
-        <button onClick={() => navigate('/book-appointment')}>Agendar</button>
-        <button onClick={() => navigate('/appointments')}>Consultas</button>
+        
+        <button onClick={() => navigate('/login')}>Agendar</button>
+        <button onClick={() => navigate('/login')}>Consultas</button>
         {user ? (
-          <>
-            <button onClick={() => navigate('/me')}>Meu Perfil</button>
-            <button onClick={logout}>Sair</button>
-          </>
+          <button onClick={logout}>Sair</button>
         ) : (
           <button onClick={() => navigate('/login')}>Login</button>
         )}

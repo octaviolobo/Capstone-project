@@ -26,6 +26,9 @@ function Sidebar() {
         {user && user.user_type === 'admin' && (
           <button onClick={() => navigate('/admin')}>Agenda</button>
         )}
+        {user && user.user_type === 'admin' && (
+          <button onClick={() => navigate('/admin/services')}>Serviços</button>
+        )}
         <button className='logout-button' onClick={logout}>Sair</button>
       </nav>
     </aside>

@@ -9,6 +9,8 @@ import BookAppointment from './pages/BookAppointment';
 import HomePage from './pages/HomePage';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminAppointmentsPage from './pages/admin/AdminAppointmentsPage';
+import GuestAppointmentPage from './pages/GuestAppointmentPage';
+import AdminServicesPage from './pages/admin/AdminServicesPage';
 
 
 function App() {
@@ -23,12 +25,14 @@ function App() {
         <Route path="/book-appointment" element={<Layout><BookAppointment /></Layout>} />
         <Route path="/admin" element={<Layout><AdminDashboard /></Layout>} />
         <Route path="/admin/appointments" element={<Layout><AdminAppointmentsPage /></Layout>} />
-        
-
+        <Route path="/admin/services" element={<Layout><AdminServicesPage /></Layout>} />
+        <Route path="/guest-appointment" element={<GuestAppointmentPage />} />
       </Routes>
     </Router>
   
   );
 }
+
+// TODO : adicionar aba de configs
 
 export default App;

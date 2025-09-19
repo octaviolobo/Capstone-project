@@ -25,6 +25,19 @@ function AppointmentsPage() {
       .catch(() => setLoading(false));
   }, [user]);
 
+  const handleCancel = async (appointment_id) => {
+    if (!window.confirm('Tem certeza que deseja cancelar esta consulta?')) return;
+    const token = localStorage.getItem('token');
+    try {
+      await axios.delete(`http://localhost:5000/api/v1/appointments/${appointment_id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setAppointments(appointments.filter(a => a.appointment_id !== appointment_id));
+    } catch (err) {
+      alert('Erro ao cancelar consulta.');
+    }
+  };
+
   if (!user) return <div className="appointments-container">Carregando...</div>;
   if (loading) return <div className="appointments-container">Carregando consultas...</div>;
 
@@ -42,6 +55,23 @@ function AppointmentsPage() {
               <div><strong>Status:</strong> {appt.status}</div>
               <div><strong>Médico:</strong> {appt.doctor_id}</div>
               {appt.notes && <div><strong>Notas:</strong> {appt.notes}</div>}
+              {/* Cancel button */}
+              {appt.status !== 'cancelled' && (
+                <button
+                  style={{
+                    marginTop: 10,
+                    background: '#b71c1c',
+                    color: '#fff',
+                    border: 'none',
+                    borderRadius: 6,
+                    padding: '8px 18px',
+                    cursor: 'pointer'
+                  }}
+                  onClick={() => handleCancel(appt.appointment_id)}
+                >
+                  Cancelar
+                </button>
+              )}
             </div>
           ))}
         </div>

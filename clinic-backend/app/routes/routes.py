@@ -144,11 +144,13 @@ def get_appointments():
     return jsonify([{
         'appointment_id': a.appointment_id,
         'service_id': a.service_id,
+        'service_name': a.service.name if a.service else "",
         'appointment_time': a.appointment_time.isoformat(),
         'status': a.status,
         'notes': a.notes,
         'doctor_id': a.doctor_id,
-        'patient_id': a.patient_id
+        'patient_id': a.patient_id,
+        'patient_name': f"{a.patient.first_name} {a.patient.last_name}" if a.patient else ""
     } for a in appointments]), 200 
 
 @main.route('/appointments/<appointment_id>', methods=['GET'])
@@ -197,16 +199,18 @@ def delete_appointment(appointment_id):
 def create_guest_appointment():
     data = request.json
     appointment = GuestAppointment(
+        guest_name=data.get('guest_name'),
+        guest_email=data.get('guest_email'),
+        guest_phone=data.get('guest_phone'),
         service_id=data.get('service_id'),
+        doctor_id=data.get('doctor_id'),
         appointment_time=data.get('appointment_time'),
         status=data.get('status', 'pending'),
-        notes=data.get('notes'),
-        doctor_id=data.get('doctor_id'),
-        patient_id=data.get('patient_id')
+        notes=data.get('notes')
     )
     db.session.add(appointment)
     db.session.commit()
-    return jsonify({'message': 'guest appointment created', 'appointment_id': appointment.appointment_id}), 201
+    return jsonify({'message': 'guest appointment created', 'appointment_id': appointment.guest_appointment_id}), 201
 
 @main.route('/guest_appointments', methods=['GET'])
 def get_guest_appointments():

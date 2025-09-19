@@ -1,3 +1,13 @@
+
+:root {
+  --navbar-height: 64px;
+}
+
+body {
+  margin: 0;
+  padding-top: var(--navbar-height);
+}
+
 .main-navbar {
   width: 100%;
   background: #fff;
@@ -5,14 +15,23 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  
-  height: 64px;
-  position: sticky;
+  padding: 0 24px;
+  height: var(--navbar-height);
+  position: fixed; 
   top: 0;
-  z-index: 1;
-  margin-left: 1px;
-  margin-right: 1px;
+  left: 0;
+  z-index: 1000;
 }
+
+.navbar-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 
 .navbar-left {
   display: flex;
@@ -42,19 +61,20 @@
 
 .navbar-links {
   display: flex;
-  gap: 18px;
+  gap: 12px;
 }
 
 .navbar-links button {
   background: none;
   border: none;
   color: #22223b;
-  font-size: 1.05rem;
+  font-size: 1rem;
   font-weight: 600;
-  padding: 8px 16px;
+  padding: 8px 12px;
   border-radius: 6px;
   cursor: pointer;
   transition: background 0.2s, color 0.2s;
+  margin-right: 25px;
 }
 
 .navbar-links button:hover {

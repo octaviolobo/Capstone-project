@@ -9,6 +9,7 @@ function AdminAppointmentsPage() {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Fetch guest appointments 00
   useEffect(() => {
     if (!user || user.user_type !== 'admin') return;
     const token = localStorage.getItem('token');
@@ -32,6 +33,18 @@ function AdminAppointmentsPage() {
     setAppointments(appointments.filter(a => a.appointment_id !== appointment_id));
     alert('Consulta aprovada e email enviado!');
   };
+  const handleCancel = async (appointment_id) => {
+  if (!window.confirm('Tem certeza que deseja cancelar esta consulta?')) return;
+  const token = localStorage.getItem('token');
+  try {
+    await axios.delete(`http://localhost:5000/api/v1/appointments/${appointment_id}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    setAppointments(appointments.filter(a => a.appointment_id !== appointment_id));
+  } catch (err) {
+    alert('Erro ao cancelar consulta.');
+  }
+};
 
   if (!user || user.user_type !== 'admin') return <div>Sem permissão.</div>;
   if (loading) return <div className="appointments-container">Carregando consultas...</div>;
@@ -58,6 +71,21 @@ function AdminAppointmentsPage() {
                 >
                   Aprovar
                 </button>
+                {appt.status !== 'cancelled' && (
+                <button
+                  style={{
+                    marginTop: 10,
+                    background: '#b71c1c',
+                    color: '#fff',
+                    border: 'none',
+                    borderRadius: 6,
+                    padding: '8px 18px',
+                    cursor: 'pointer'
+                  }}
+                  onClick={() => handleCancel(appt.appointment_id)}
+                >
+                  Cancelar
+                </button>)}
               </div>
             ))}
           </div>

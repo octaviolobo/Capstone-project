@@ -18,7 +18,7 @@ function HomePage() {
 
   const handleBookClick = () => {
     if (!user) {
-      navigate('/login');
+      navigate('/guest-appointment');
     } else {
       navigate('/book-appointment');
     }
@@ -75,9 +75,9 @@ function HomePage() {
           <div className="home-section">
             <h3>Informações da Clínica</h3>
             <div className="clinic-info">
-              <div><strong>Endereço:</strong> Rua Exemplo, 123</div>
-              <div><strong>Telefone:</strong> (11) 99999-9999</div>
-              <div><strong>Horário:</strong> Seg-Sex 8h-18h</div>
+              <div><strong>Endereço:</strong> Centro Empresarial Ibis Hotel - PA-275, km 66 - loja 18, Parauapebas - PA, 68515-000, Brasil</div>
+              <div><strong>Telefone:</strong> (94) 98126-7176</div>
+              <div><strong>Horário:</strong> Seg-Sex 8h-20h</div>
             </div>
           </div>
         </div>

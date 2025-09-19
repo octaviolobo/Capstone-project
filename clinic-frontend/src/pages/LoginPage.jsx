@@ -1,10 +1,12 @@
 import './LoginPage.css'; 
 import { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
@@ -18,8 +20,8 @@ const LoginPage = () => {
 
   return (
     <div className='login-container'>
-      <div className='logo-row'>
-        <div className='logo-box'>M</div>
+      <div className='logo-row' onClick={() => navigate('/')}>
+        <span className='logo-box'>M</span>
         <span className='font-bold text-xl text-gray-700'>Maternar</span>
       </div>
       <p className="login-subtitle">Por favor insira seus dados</p>
