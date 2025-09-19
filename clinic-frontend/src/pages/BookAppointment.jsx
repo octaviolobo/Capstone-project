@@ -41,7 +41,7 @@ function BookAppointment() {
     }
     const token = localStorage.getItem('token');
     try {
-      await axios.post('http://localhost:5000/api/v1/appointments', {
+      await axios.post('https://capstone-project-094h.onrender.com/api/v1/appointments', {
         service_id: serviceId,
         doctor_id: doctorId,
         patient_id: user.user_type === 'admin' ? patientId : user.user_id,

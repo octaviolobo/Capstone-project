@@ -12,7 +12,7 @@ function HomePage() {
   const [services, setServices] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/v1/services')
+    axios.get('https://capstone-project-094h.onrender.com/api/v1/services')
       .then(res => setServices(res.data));
   }, []);
 

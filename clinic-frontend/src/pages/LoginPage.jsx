@@ -10,7 +10,7 @@ const LoginPage = () => {
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post('http://localhost:5000/api/v1/auth/login', { email, password });
+      const res = await axios.post('https://capstone-project-094h.onrender.com/api/v1/auth/login', { email, password });
       localStorage.setItem('token', res.data.access_token);
       window.location.href = '/me';
     } catch (err) {

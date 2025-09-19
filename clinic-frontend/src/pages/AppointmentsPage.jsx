@@ -29,7 +29,7 @@ function AppointmentsPage() {
     if (!window.confirm('Tem certeza que deseja cancelar esta consulta?')) return;
     const token = localStorage.getItem('token');
     try {
-      await axios.delete(`http://localhost:5000/api/v1/appointments/${appointment_id}`, {
+      await axios.delete(`https://capstone-project-094h.onrender.com/api/v1/appointments/${appointment_id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setAppointments(appointments.filter(a => a.appointment_id !== appointment_id));

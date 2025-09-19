@@ -22,7 +22,7 @@ function AdminDashboard() {
     if (user && user.user_type === 'admin') {
       const token = localStorage.getItem('token');
 
-      axios.get('http://localhost:5000/api/v1/users', {
+      axios.get('https://capstone-project-094h.onrender.com/api/v1/users', {
         headers: { Authorization: `Bearer ${token}` }
       }).then(res => {
         const doctors = res.data.filter(u => u.user_type === 'doctor');
@@ -33,7 +33,7 @@ function AdminDashboard() {
         }));
         setResources(mappedResources);
       });
-      axios.get('http://localhost:5000/api/v1/appointments', {
+      axios.get('https://capstone-project-094h.onrender.com/api/v1/appointments', {
         headers: { Authorization: `Bearer ${token}` }
       }).then(res => {
         // FullCalendar expects events as { title, date }

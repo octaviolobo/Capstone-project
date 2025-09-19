@@ -16,7 +16,7 @@ const RegisterPage = () => {
             return;
         }
         try {
-            await axios.post('http://localhost:5000/api/v1/auth/register', {
+            await axios.post('https://capstone-project-094h.onrender.com/api/v1/auth/register', {
                 first_name: firstName,
                 last_name: lastName,
                 phone_number: phone,

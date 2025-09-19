@@ -16,8 +16,8 @@ function GuestAppointmentPage() {
     const [msg, setMsg] = useState('');
 
     useEffect(() => {
-        axios.get('http://localhost:5000/api/v1/services').then(res => setServices(res.data));
-        axios.get('http://localhost:5000/api/v1/users').then(res => {
+        axios.get('https://capstone-project-094h.onrender.com/api/v1/services').then(res => setServices(res.data));
+        axios.get('https://capstone-project-094h.onrender.com/api/v1/users').then(res => {
             setDoctors(res.data.filter(u => u.user_type === 'doctor'));
         });
     }, []);
@@ -30,7 +30,7 @@ function GuestAppointmentPage() {
             return;
         }
         try {
-            await axios.post('http://localhost:5000/api/v1/guest_appointments', {
+            await axios.post('https://capstone-project-094h.onrender.com/api/v1/guest_appointments', {
                 guest_name: guestName,
                 guest_email: guestEmail,
                 guest_phone: guestPhone,

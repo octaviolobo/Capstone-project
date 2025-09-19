@@ -15,7 +15,7 @@ function AdminServicesPage() {
     setMsg('');
     const token = localStorage.getItem('token');
     try {
-      await axios.post('http://localhost:5000/api/v1/services', {
+      await axios.post('https://capstone-project-094h.onrender.com/api/v1/services', {
         name,
         description,
         price,
