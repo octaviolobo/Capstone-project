@@ -11,7 +11,7 @@ function AppointmentsPage() {
   useEffect(() => {
     if (!user) return;
     const token = localStorage.getItem('token');
-    axios.get('http://localhost:5000/api/v1/appointments', {
+    axios.get('https://capstone-project-094h.onrender.com/api/v1/appointments', {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => {

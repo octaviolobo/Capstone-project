@@ -18,11 +18,11 @@ function BookAppointment() {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    axios.get('http://localhost:5000/api/v1/services', {
+    axios.get('https://capstone-project-094h.onrender.com/api/v1/services', {
       headers: { Authorization: `Bearer ${token}` }
     }).then(res => setServices(res.data));
 
-    axios.get('http://localhost:5000/api/v1/users', {
+    axios.get('https://capstone-project-094h.onrender.com/api/v1/users', {
       headers: { Authorization: `Bearer ${token}` }
     }).then(res => {
       setDoctors(res.data.filter(u => u.user_type === 'doctor'));

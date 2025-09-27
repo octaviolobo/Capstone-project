@@ -10,7 +10,7 @@ import axios from 'axios';
       setUser(null);
       return;
     }
-    axios.get('http://localhost:5000/api/v1/auth/me', {
+    axios.get('https://capstone-project-094h.onrender.com/api/v1/auth/me', {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => {

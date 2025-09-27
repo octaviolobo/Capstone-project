@@ -13,7 +13,7 @@ function AdminAppointmentsPage() {
   useEffect(() => {
     if (!user || user.user_type !== 'admin') return;
     const token = localStorage.getItem('token');
-    axios.get('http://localhost:5000/api/v1/appointments', {
+    axios.get('https://capstone-project-094h.onrender.com/api/v1/appointments', {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => {
@@ -25,7 +25,7 @@ function AdminAppointmentsPage() {
 
   const handleApprove = async (appointment_id) => {
     const token = localStorage.getItem('token');
-    await axios.put(`http://localhost:5000/api/v1/appointments/${appointment_id}`, {
+    await axios.put(`https://capstone-project-094h.onrender.com/api/v1/appointments/${appointment_id}`, {
       status: 'confirmed'
     }, {
       headers: { Authorization: `Bearer ${token}` }
@@ -37,7 +37,7 @@ function AdminAppointmentsPage() {
   if (!window.confirm('Tem certeza que deseja cancelar esta consulta?')) return;
   const token = localStorage.getItem('token');
   try {
-    await axios.delete(`http://localhost:5000/api/v1/appointments/${appointment_id}`, {
+    await axios.delete(`https://capstone-project-094h.onrender.com/api/v1/appointments/${appointment_id}`, {
       headers: { Authorization: `Bearer ${token}` }
     });
     setAppointments(appointments.filter(a => a.appointment_id !== appointment_id));
