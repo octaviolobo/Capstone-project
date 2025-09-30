@@ -1,130 +1,136 @@
-/* Base styles for containers and cards */
-.responsive-container {
-  max-width: 900px;
-  margin: 32px auto;
-  padding: 24px;
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-  font-family: 'Inter', Arial, sans-serif;
+/* ========== Global Defaults (Mobile-first) ========== */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
 }
 
-.responsive-card {
-  background: #f7f8fa;
-  border-radius: 12px;
-  padding: 16px 20px;
-  margin-bottom: 16px;
-  box-shadow: 0 2px 8px rgba(211, 175, 55, 0.06);
+.container {
+  width: 100%;
+  padding: 0 1rem;
+  margin: 0 auto;
 }
 
-/* Responsive typography */
-.responsive-title {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #22223b;
-  margin-bottom: 18px;
+/* Navbar defaults */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: #2c3e50;
+  color: white;
 }
 
-.responsive-section-title {
-  font-size: 1.2rem;
-  color: #22223b;
-  margin-bottom: 12px;
+.navbar-menu {
+  display: none; /* hidden on mobile */
 }
 
-/* Responsive form */
-.responsive-form {
+.hamburger {
+  display: block;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* Sidebar defaults */
+.sidebar {
+  display: none; /* hidden on mobile */
+  background: #ecf0f1;
+  padding: 1rem;
+  width: 250px;
+}
+
+/* Forms */
+form {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  max-width: 400px;
-  width: 100%;
+  gap: 1rem;
 }
 
-.responsive-form input,
-.responsive-form textarea {
-  width: 100%;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #e0e0e0;
+form input,
+form select,
+form textarea,
+form button {
+  padding: 0.6rem;
   font-size: 1rem;
+  width: 100%;
 }
 
-.responsive-form button {
-  background: #d3af37;
-  color: #fff;
-  border: none;
+/* Cards/Grid */
+.card-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.card {
+  padding: 1rem;
+  border: 1px solid #ddd;
   border-radius: 8px;
-  padding: 12px 24px;
-  font-size: 1.08rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s;
+  background: #fff;
 }
 
-.responsive-form button:hover {
-  background: #1d4ed8;
-}
 
-/* Responsive sidebar */
-.responsive-sidebar {
-  min-width: 220px;
-  background: #f7f8fa;
-  border-radius: 12px;
-  padding: 16px;
-  box-shadow: 0 2px 8px rgba(211, 175, 55, 0.06);
-}
-
-/* Responsive grid for cards/services */
-.responsive-grid {
-  display: flex;
-  gap: 18px;
-  flex-wrap: wrap;
-}
-
-/* Media queries for mobile */
-@media (max-width: 900px) {
-  .responsive-container {
-    max-width: 100%;
-    padding: 16px;
-    margin: 16px;
+/* ========== Tablets (>= 768px) ========== */
+@media (min-width: 768px) {
+  body {
+    font-size: 15px;
   }
-  .responsive-sidebar {
-    min-width: 160px;
-    padding: 10px;
+
+  .navbar-menu {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .hamburger {
+    display: none; /* hide hamburger */
+  }
+
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  form {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  form input,
+  form select,
+  form textarea {
+    flex: 1;
+    min-width: 200px;
   }
 }
 
-@media (max-width: 600px) {
-  .responsive-container {
-    padding: 8px;
-    margin: 0;
-    border-radius: 0;
-    box-shadow: none;
+
+/* ========== Small Laptops (>= 1024px) ========== */
+@media (min-width: 1024px) {
+  .container {
+    max-width: 960px;
   }
-  .responsive-title {
-    font-size: 1.3rem;
-    margin-bottom: 12px;
-    text-align: center;
+
+  .sidebar {
+    display: block;
+    float: left;
   }
-  .responsive-section-title {
-    font-size: 1rem;
-    margin-bottom: 8px;
-    text-align: center;
+
+  .content {
+    margin-left: 260px; /* leave space for sidebar */
   }
-  .responsive-form {
-    max-width: 100%;
-    padding: 0;
+
+  .card-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
-  .responsive-card {
-    padding: 8px 10px;
-    margin-bottom: 8px;
+}
+
+
+/* ========== Large Desktops (>= 1280px) ========== */
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1200px;
   }
-  .responsive-sidebar {
-    min-width: 100px;
-    padding: 6px;
-  }
-  .responsive-grid {
-    flex-direction: column;
-    gap: 8px;
+
+  .card-grid {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
