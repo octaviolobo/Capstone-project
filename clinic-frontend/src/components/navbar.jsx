@@ -10,7 +10,7 @@ function Navbar() {
     <nav className="main-navbar">
       <div className="navbar-left" onClick={() => navigate('/')}>
         <span className="logo-box">M</span>
-        <span className="navbar-title">Matenar</span>
+        <span className="navbar-title">Maternar</span>
       </div>
       <div className="navbar-links">
         
