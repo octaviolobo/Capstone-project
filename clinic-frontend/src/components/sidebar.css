@@ -1,18 +1,15 @@
 .main-sidebar {
-  width: 220px;
-  background: #fff;
-  box-shadow: 2px 0 12px rgba(0,0,0,0.06);
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 32px;
   position: fixed;
-  left: 0;
   top: 0;
-  z-index: 0;
+  left: -260px; /* hidden off-screen */
+  width: 250px;
+  height: 100%;
+  background: #2c3e50;
+  color: white;
+  padding: 1rem;
+  transition: left 0.3s ease;
+  z-index: 1000;
 }
-
 .sidebar-logo {
   display: flex;
   align-items: center;
@@ -70,4 +67,40 @@
 .logout-button {
   margin-top: 320px;
 }
+.main-sidebar.open {
+  left: 0; /* slide in */
+}
+/* Toggle button */
+.toggle-btn {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1100;
+  font-size: 1.5rem;
+  background: #2c3e50;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 900;
+}
 
+/* Larger screens: sidebar always visible */
+@media (min-width: 1024px) {
+  .main-sidebar {
+    left: 0;
+  }
+
+  .toggle-btn,
+  .overlay {
+    display: none;
+  }
+}

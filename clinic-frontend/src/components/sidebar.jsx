@@ -1,12 +1,22 @@
 import './sidebar.css';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import useAuth from '../hooks/useAuth';
 
 function Sidebar() {
   const navigate = useNavigate();
   const { logout, user } = useAuth();
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
+    <>
+      <button className="sidebar-toggle" onClick={() => setIsOpen(!isOpen)}>
+        ☰
+      </button>
+      {isOpen && (
+        <div className="sidebar-overlay" onClick={() => setIsOpen(false)}></div>
+      )}
+    
     <aside className="main-sidebar">
       <div className="sidebar-logo" onClick={() => navigate('/')}>
         <span className="logo-box">M</span>
@@ -32,7 +42,8 @@ function Sidebar() {
         <button className='logout-button' onClick={logout}>Sair</button>
       </nav>
     </aside>
+    </>
   );
-}
+} 
 
 export default Sidebar;
