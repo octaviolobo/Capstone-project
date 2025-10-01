@@ -13,9 +13,7 @@ function Sidebar() {
       <button className="sidebar-toggle" onClick={() => setIsOpen(!isOpen)}>
         ☰
       </button>
-      {isOpen && (
-        <div className="sidebar-overlay" onClick={() => setIsOpen(false)}></div>
-      )}
+      
     
     <aside className="main-sidebar">
       <div className="sidebar-logo" onClick={() => navigate('/')}>
