@@ -11,7 +11,7 @@ import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminAppointmentsPage from './pages/admin/AdminAppointmentsPage';
 import GuestAppointmentPage from './pages/GuestAppointmentPage';
 import AdminServicesPage from './pages/admin/AdminServicesPage';
-
+import './hooks/Responsive.css'
 
 function App() {
   return (
