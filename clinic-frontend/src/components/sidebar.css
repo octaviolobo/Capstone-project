@@ -14,9 +14,8 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 40px;
   cursor: pointer;
-  margin-top: 1rem;
+  margin-bottom: 0;
 }
 
 .logo-box {
@@ -73,16 +72,21 @@
 }
 /* Toggle button */
 .toggle-btn {
-  position: fixed;
-  top: 1rem;
-  left: 1rem;
-  z-index: 1100;
-  font-size: 1.5rem;
-  background: rgba(0, 0, 0, 0.5);
-  color: white;
+  background: none;
   border: none;
-  padding: 0.5rem 1rem;
+  font-size: 1.5rem;
   cursor: pointer;
+  color: #22223b; /* Match your text color */
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+.toggle-btn:hover {
+  background: #f7f8fa;
+}
+
+.toggle-btn.external {
+ display: none;
 }
 .overlay {
   position: fixed;
@@ -92,6 +96,29 @@
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
   z-index: 900;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px
+}
+
+@media (max-width: 1023px) {
+  .toggle-btn.external {
+    display: block;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    background: #8e98a1;
+    color: white;
+    z-index: 1100;
+  }
+  
+  .toggle-btn.internal {
+    display: block; /* Show close button inside sidebar */
+  }
 }
 
 /* Larger screens: sidebar always visible */

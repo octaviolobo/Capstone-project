@@ -10,7 +10,7 @@ function Sidebar() {
 
   return (
     <>
-      {/* Toggle button - fixed the class name */}
+      {/* Toggle button for mobile */}
       <button className="toggle-btn" onClick={() => setIsOpen(!isOpen)}>
         ☰
       </button>
@@ -20,10 +20,13 @@ function Sidebar() {
       
       {/* Sidebar - added conditional 'open' class */}
       <aside className={`main-sidebar ${isOpen ? 'open' : ''}`}>
-        <div className="sidebar-logo" onClick={() => navigate('/')}>
-          <span className="logo-box">M</span>
-          <span className="sidebar-title">Maternar</span>
-        </div>
+        <div className="sidebar-header"> 
+          <div className="sidebar-logo" onClick={() => navigate('/')}> 
+            <span className="logo-box">M</span>
+            <span className="sidebar-title">Maternar</span>
+          </div>
+          <button className="toggle-btn internal" onClick={() => setIsOpen(false)}>×</button>
+        </div>  
         <nav className="sidebar-nav">
           <button onClick={() => navigate('/me')}>Perfil</button>
           {user && user.user_type === 'patient' && (
