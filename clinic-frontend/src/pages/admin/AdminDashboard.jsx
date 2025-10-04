@@ -14,6 +14,7 @@ function AdminDashboard() {
   const navigate = useNavigate();
   const [events, setEvents] = useState([]);
   const [resources, setResources] = useState([]);
+  const API_URL = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     if (user && user.user_type !== 'admin') {
@@ -22,7 +23,7 @@ function AdminDashboard() {
     if (user && user.user_type === 'admin') {
       const token = localStorage.getItem('token');
 
-      axios.get('https://capstone-project-094h.onrender.com/api/v1/users', {
+      axios.get(`${API_URL}/api/v1/users`, {
         headers: { Authorization: `Bearer ${token}` }
       }).then(res => {
         const doctors = res.data.filter(u => u.user_type === 'doctor');
@@ -33,7 +34,7 @@ function AdminDashboard() {
         }));
         setResources(mappedResources);
       });
-      axios.get('https://capstone-project-094h.onrender.com/api/v1/appointments', {
+      axios.get(`${API_URL}/api/v1/appoitments`, {
         headers: { Authorization: `Bearer ${token}` }
       }).then(res => {
         // FullCalendar expects events as { title, date }

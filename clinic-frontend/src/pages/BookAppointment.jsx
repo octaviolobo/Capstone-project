@@ -15,14 +15,15 @@ function BookAppointment() {
   const [date, setDate] = useState('');
   const [notes, setNotes] = useState('');
   const [msg, setMsg] = useState('');
+  const API_URL = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    axios.get('https://capstone-project-094h.onrender.com/api/v1/services', {
+    axios.get(`${API_URL}/api/v1/services`, {
       headers: { Authorization: `Bearer ${token}` }
     }).then(res => setServices(res.data));
 
-    axios.get('https://capstone-project-094h.onrender.com/api/v1/users', {
+    axios.get(`${API_URL}/api/v1/users`, {
       headers: { Authorization: `Bearer ${token}` }
     }).then(res => {
       setDoctors(res.data.filter(u => u.user_type === 'doctor'));
@@ -41,7 +42,7 @@ function BookAppointment() {
     }
     const token = localStorage.getItem('token');
     try {
-      await axios.post('https://capstone-project-094h.onrender.com/api/v1/appointments', {
+      await axios.post(`${API_URL}/api/v1/appointments`, {
         service_id: serviceId,
         doctor_id: doctorId,
         patient_id: user.user_type === 'admin' ? patientId : user.user_id,

@@ -7,10 +7,11 @@ const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const API_URL = process.env.REACT_APP_API_URL;
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post('https://capstone-project-094h.onrender.com/api/v1/auth/login', { email, password });
+      const res = await axios.post(`${API_URL}/api/v1/auth/login`, { email, password });
       localStorage.setItem('token', res.data.access_token);
       window.location.href = '/me';
     } catch (err) {

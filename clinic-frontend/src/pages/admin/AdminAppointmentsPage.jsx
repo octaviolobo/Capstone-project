@@ -8,12 +8,20 @@ function AdminAppointmentsPage() {
   const { user } = useAuth();
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const API_URL = process.env.REACT_APP_API_URL;
 
   // Fetch guest appointments 00
   useEffect(() => {
     if (!user || user.user_type !== 'admin') return;
+    if (!API_URL) {
+      console.error('API_URL is not defined');
+      return;
+    }
+
     const token = localStorage.getItem('token');
-    axios.get('https://capstone-project-094h.onrender.com/api/v1/appointments', {
+
+    
+    axios.get(`${API_URL}/api/v1/appointments`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => {
@@ -25,7 +33,7 @@ function AdminAppointmentsPage() {
 
   const handleApprove = async (appointment_id) => {
     const token = localStorage.getItem('token');
-    await axios.put(`https://capstone-project-094h.onrender.com/api/v1/appointments/${appointment_id}`, {
+    await axios.put(`${API_URL}/api/v1/appointments/${appointment_id}`, {
       status: 'confirmed'
     }, {
       headers: { Authorization: `Bearer ${token}` }
@@ -37,7 +45,7 @@ function AdminAppointmentsPage() {
   if (!window.confirm('Tem certeza que deseja cancelar esta consulta?')) return;
   const token = localStorage.getItem('token');
   try {
-    await axios.delete(`https://capstone-project-094h.onrender.com/api/v1/appointments/${appointment_id}`, {
+    await axios.delete(`${API_URL}/api/v1/appointments/${appointment_id}`, {
       headers: { Authorization: `Bearer ${token}` }
     });
     setAppointments(appointments.filter(a => a.appointment_id !== appointment_id));
@@ -52,7 +60,7 @@ function AdminAppointmentsPage() {
   return (
     <div style={{ marginLeft: 220, minHeight: '100vh' }}>
       <Sidebar />
-      <div style={{ marginLeft: 220, padding: 32 }}>
+      <div style={{ padding: 32 }}>
         <h2 className="appointments-title">Consultas Pendentes</h2>
         {appointments.length === 0 ? (
           <div className="no-appointments">Nenhuma consulta pendente.</div>

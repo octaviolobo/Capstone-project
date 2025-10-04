@@ -10,9 +10,10 @@ function HomePage() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [services, setServices] = useState([]);
+  const API_URL = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
-    axios.get('https://capstone-project-094h.onrender.com/api/v1/services')
+    axios.get(`${API_URL}/api/v1/services`)
       .then(res => setServices(res.data));
   }, []);
 

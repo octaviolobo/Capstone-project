@@ -9,13 +9,14 @@ function AdminServicesPage() {
   const [price, setPrice] = useState('');
   const [duration, setDuration] = useState('');
   const [msg, setMsg] = useState('');
+  const API_URL = process.env.REACT_APP_API_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMsg('');
     const token = localStorage.getItem('token');
     try {
-      await axios.post('https://capstone-project-094h.onrender.com/api/v1/services', {
+      await axios.post(`${API_URL}/api/v1/services`, {
         name,
         description,
         price,

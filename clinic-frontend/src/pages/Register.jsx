@@ -9,6 +9,7 @@ const RegisterPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const API_URL = process.env.REACT_APP_API_URL;
 
     const handleRegister = async () => {
         if (password !== confirmPassword) {
@@ -16,7 +17,7 @@ const RegisterPage = () => {
             return;
         }
         try {
-            await axios.post('https://capstone-project-094h.onrender.com/api/v1/auth/register', {
+            await axios.post(`${API_URL}/api/v1/auth/register`, {
                 first_name: firstName,
                 last_name: lastName,
                 phone_number: phone,
